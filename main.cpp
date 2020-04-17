@@ -870,11 +870,6 @@ void CaiThien1(){
         }    
     }
 
-    //ThayTheTiet(2, 24, 2);
-    //ThayTheTiet(2, 2, 27);
-
-    //cout << lop_tiet[2][24];
-
     /*for (int lop=1; lop<=sllop; lop++){
         for (int i=1; i<=30; i++){
             if (lop_tiet[lop][i] == 0){
