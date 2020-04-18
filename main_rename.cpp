@@ -43,22 +43,23 @@ phancong pc[1000];   // Input phân công
 tklop outlop[35];    // Output tkb của lớp
 tkgv outgv[1000];    // Output tkb của giáo viên
 
-string DSmon[] = {"SHL", "Tin", "TD", "Lý", "CN", "Van", "NN", "Hoa", "Sinh", "Dia", "Su", "GDCD", "Toan"};
+string DSmon[] = {"SHCN", "Tin", "TD", "Lý", "CN", "Van", "NN", "Hoa", "Sinh", "Dia", "Su", "GDCD", "Toan"};
 
 string DSmonXh[] = {"Van", "Su", "Dia", "GDCD", "NN"};
-string DSlop[] = {"12A","12B","12C","12D","12E","12G","12H","12K","12M","12N","10A","10B","10C","10D","10E","10G","10H","10K","10M","10N","11A","11B","11C","11D","11E","11G","11H","11K","11M","11N","11P","11Q","11T"};
 
 int gv_tiet[75][31];            // Tiết giáo viên trống (0: trống, 1: ko trống) 
 int lop_tiet[35][31];           // Tiết lớp trống (0: trống, 1: ko trống);
 int slphancong, sllop, slgv;    // Số lượng của phân công, lớp, giáo viên;
 int slphongtin = 3;             // Số lượng phòng tin học của trường
 
+string file_PC = "PC_HK2.txt";
+
 // ===================== Danh Sách Các Hàm ========================
-void themPhanCong(int i, string _maPhanCong, string _lop, string _mon, string _gv, int _sotiet, int _len);
+void themPC(int i, string _maPhanCong, string _lop, string _mon, string _gv, int _sotiet, int _len);
 void nhap();
-void xuat_test();
+void xuat_DSPC();
 void xuat_tung_pc(int i);
-void suaCumTiet();
+//void suaCumTiet();
 void ghiMucUuTien();
 void taoDanhSachLop();
 void taoDanhSachGiaoVien();
@@ -87,7 +88,7 @@ bool checkTietLung();
 ////////////////////////////////////////
 
 // Thêm 1 phân công
-void themPhanCong(int i, string _maPhanCong, string _lop, string _mon, string _gv, int _sotiet, int _len){
+void themPC(int i, string _maPhanCong, string _lop, string _mon, string _gv, int _sotiet, int _len){
     pc[i].maphancong = _maPhanCong;
     pc[i].lop = _lop;
 	pc[i].mon = _mon;
@@ -98,7 +99,7 @@ void themPhanCong(int i, string _maPhanCong, string _lop, string _mon, string _g
 
 // Nhập dữ liệu vào
 void nhap(){
-    ifstream fi("PC_HK1.txt");
+    ifstream fi(file_PC);
     slphancong = 0;
     string _maPhanCong;
     string _lop;
@@ -106,16 +107,16 @@ void nhap(){
     string _gv;
     int _sotiet;
     int _len;
-    for (int i=1; i<=736; i++){
+    while (!fi.eof()){
         fi >> _maPhanCong >> _lop >> _mon >> _gv >> _sotiet >> _len;
         slphancong++;
-        themPhanCong(slphancong, _maPhanCong, _lop, _mon, _gv, _sotiet, _len);
+        themPC(slphancong, _maPhanCong, _lop, _mon, _gv, _sotiet, _len);
     }
     fi.close();
 }
 
 // Xuất danh sách phân công
-void xuat_test(){
+void xuat_DSPC(){
     for (int i=1; i<=slphancong; i++){
         cout << i << '\t' << pc[i].maphancong << '\t' << pc[i].lop << '\t' << pc[i].mon << '\t' << pc[i].gv << '\t' << pc[i].sotiet << '\t' << pc[i].len << "\t[" << pc[i].mucuutien << "]\t" << tongSoTiet(pc[i].mon, pc[i].gv) << '\n';
     }
@@ -127,7 +128,7 @@ void xuat_tung_pc(int i){
 }
 
 // Sửa cụm tiết
-void suaCumTiet(){
+/*void suaCumTiet(){
     for (int i=1; i<=slphancong; i++){
         if (pc[i].sotiet == 3){
             pc[i].len = pc[i].len;
@@ -136,18 +137,18 @@ void suaCumTiet(){
             pc[i].len = pc[i].sotiet;
         }
     }
-}
+}*/
 
 // Ghi mức ưu tiên
 void ghiMucUuTien(){
     for (int i=1; i<=slphancong; i++){
-        if (pc[i].mon == "SHL"){
+        if (pc[i].mon == "SHCN"){
             pc[i].mucuutien = 0;
         }
         else if (pc[i].mon == "Van" || pc[i].mon == "TD"){
             pc[i].mucuutien = 1;
         }
-        else if (pc[i].mon == "Toan" || pc[i].mon == "NN" || pc[i].mon == "AVNN"){
+        else if (pc[i].mon == "Toan" || pc[i].mon == "NN"){
             pc[i].mucuutien = 2;
         }
         else{
@@ -169,31 +170,28 @@ void taoDanhSachLop(){
     outlop[9].lop = "12M";
     outlop[10].lop = "12N";
     
-    outlop[11].lop = "10A";
-    outlop[12].lop = "10B";
-    outlop[13].lop = "10C";
-    outlop[14].lop = "10D";
-    outlop[15].lop = "10E";
-    outlop[16].lop = "10G";
-    outlop[17].lop = "10H";
-    outlop[18].lop = "10K";
-    outlop[19].lop = "10M";
-    outlop[20].lop = "10N";
+    outlop[11].lop = "11A";
+    outlop[12].lop = "11B";
+    outlop[13].lop = "11C";
+    outlop[14].lop = "11D";
+    outlop[15].lop = "11E";
+    outlop[16].lop = "11G";
+    outlop[17].lop = "11H";
+    outlop[18].lop = "11K";
+    outlop[19].lop = "11M";
+    outlop[20].lop = "11N";
     
-    outlop[21].lop = "11A";
-    outlop[22].lop = "11B";
-    outlop[23].lop = "11C";
-    outlop[24].lop = "11D";
-    outlop[25].lop = "11E";
-    outlop[26].lop = "11G";
-    outlop[27].lop = "11H";
-    outlop[28].lop = "11K";
-    outlop[29].lop = "11M";
-    outlop[30].lop = "11N";
-    outlop[31].lop = "11P";
-    outlop[32].lop = "11Q";
-    outlop[33].lop = "11T";
-    sllop = 33;
+    outlop[21].lop = "10A";
+    outlop[22].lop = "10B";
+    outlop[23].lop = "10C";
+    outlop[24].lop = "10D";
+    outlop[25].lop = "10E";
+    outlop[26].lop = "10G";
+    outlop[27].lop = "10H";
+    outlop[28].lop = "10K";
+    outlop[29].lop = "10M";
+    outlop[30].lop = "10N";
+    sllop = 30;
 }
 
 // Tạo danh sách giáo viên trong outgv
@@ -344,19 +342,7 @@ bool kiemTraTrungMon(string mon, int tietbatdau, string lop){
     for (int i=tietdauthu; i<=tietdauthu+4; i++){
         if (lop_tiet[sttlop][i] != 0){ // Tiet da co mon
             if (outlop[sttlop].tiet[i].mon == mon){ // Trung mon
-                if (i - tietbatdau == 1){
-                    if (i == tietdauthu + 4 || outlop[sttlop].tiet[i+1].mon != outlop[sttlop].tiet[i].mon){
-                        return true;
-                    }
-                }
-                else if (tietbatdau - i == 1){
-                    if (i == tietdauthu || outlop[sttlop].tiet[i-1].mon != outlop[sttlop].tiet[i].mon){
-                        return true;
-                    }
-                }
-                else{
-                    return false;
-                }
+                return false;
             }
         }
     }
@@ -401,8 +387,8 @@ bool kiemTraDungDoPhongHoc(int i, int tietbatdau){
         for (int k=0; k<pc[i].len; k++){   
             int count = 1;
             for (int j=1; j<=sllop; j++){
-                if (findsttlop(pc[i].lop) != j && lop_tiet[j][tietbatdau + k] == 1){
-                    if (outlop[j].tiet[tietbatdau+k].mon == "Tin"){
+                if (lop_tiet[j][tietbatdau + k] == 1){
+                    if (outlop[i].tiet[tietbatdau].mon == "Tin"){
                         count++;
                         if (count > slphongtin){
                             return false;
@@ -447,6 +433,8 @@ void XepPhanCong(int i, string lop, int tietbatdau){ // phan cong i xep vao lop 
         outlop[sttlop].tiet[tietbatdau+j].gv = pc[i].gv;
 
         pc[i].ttpc = true;
+    
+        gv_tiet[sstgv][tietbatdau+j] = 1;
         outgv[sttgv].tiet[tietbatdau+j].mon = pc[i].mon;
         outgv[sttgv].tiet[tietbatdau+j].lop = pc[i].lop; 
     }
@@ -536,8 +524,8 @@ void outgv_hetgv(){
 bool checkTatCaPhanCong(){
     for (int i=1; i<=slphancong; i++){
         if (pc[i].ttpc == false){
-            //return false;
-            xuat_tung_pc(i);
+            return false;
+            //xuat_tung_pc(i);
         }
     }
     return true;
@@ -605,6 +593,7 @@ bool TietkLung(int k, int i){
     return false; 
 }
 
+// Kiểm tra tiết thay thế với tiết trống
 bool ChecktietThayThe(int lop, int tietbatdau, int tietthaythe){
     // Kiểm tra trùng giáo viên
     for (int i=1; i<=sllop; i++){
@@ -630,7 +619,7 @@ bool ChecktietThayThe(int lop, int tietbatdau, int tietthaythe){
         int count = 1;
         for (int j=1; j<=sllop; j++){
             if (lop != j && lop_tiet[j][tietbatdau] == 1){
-                if (outlop[j].tiet[tietbatdau].mon == "Tin"){
+                if (outlop[lop].tiet[tietbatdau].mon == "Tin"){
                     count++;
                     if (count > slphongtin){
                         return false;
@@ -663,8 +652,8 @@ bool ChecktietThayThe2(int lop, int tietbatdau, int tietthaythe){
     if (outlop[lop].tiet[tietthaythe].mon == "Tin"){ 
         int count = 1;
         for (int j=1; j<=sllop; j++){
-            if (lop != j && lop_tiet[j][tietbatdau] == 1){
-                if (outlop[j].tiet[tietbatdau].mon == "Tin"){
+            if (lop_tiet[j][tietbatdau] == 1){
+                if (outlop[lop].tiet[tietbatdau].mon == "Tin"){
                     count++;
                     if (count > slphongtin){
                         return false;
@@ -723,10 +712,7 @@ bool check1tiet(int lop, int tiet_on_2){
 }
 
 bool check1tiet_2(int lop, int tiet_on_2){
-    if (outlop[lop].tiet[tiet_on_2].mon == "Van" && check1tiet(lop, tiet_on_2)){
-        return true;
-    }
-    else if (outlop[lop].tiet[tiet_on_2].mon != "TD" && outlop[lop].tiet[tiet_on_2].mon != "Tin"){
+    if (outlop[lop].tiet[tiet_on_2].mon != "Van" && outlop[lop].tiet[tiet_on_2].mon != "TD"){
         return true;
     }
     return false;
@@ -748,19 +734,6 @@ bool Check3_Swap_2(int lop, int tiet_on_1, int tiet_off, int tiet_on_2){
         }
     }
     return false;
-}
-
-void ThemPCSau(){
-    for (int i=1; i<=slphancong; i++){
-        if (pc[i].ttpc == false){
-            int sotiet = pc[i].len;
-            int k = findslot(i, pc[i].lop, sotiet);
-            //cout << '[' << k << ']' << ' ';
-            if (k != 0){
-                XepPhanCong(i, pc[i].lop, k);
-            }
-        }
-    }
 }
 
 void CaiThien1(){
@@ -839,8 +812,6 @@ void CaiThien1(){
         }    
     }
 
-    ThemPCSau();
-
     // 3-Swap
     for (int lop=1; lop<=sllop; lop++){
         for (int tiet_on_1=30; tiet_on_1>=26; tiet_on_1--){
@@ -903,115 +874,6 @@ void CaiThien1(){
             }            
         }    
     }
-
-
-    
-
-    bool change = true;
-    
-    while (change){
-
-        change = false;
-        ThemPCSau();
-
-        for (int lop=1; lop<=sllop; lop++){
-            for (int tiet_on_1=30; tiet_on_1>=26; tiet_on_1--){
-                if (lop_tiet[lop][tiet_on_1] == 1){ // Có tiết 1
-                    for (int tiet_off=2; tiet_off<=tiet_on_1; tiet_off++){
-                        if (lop_tiet[lop][tiet_off] == 0){ // Tiết trống
-                            for (int tiet_on_2=2; tiet_on_2 <= 25; tiet_on_2++){
-                                if (lop_tiet[lop][tiet_on_2] == 1){ // Có Tiết 2
-                                    if (Check3_Swap_2(lop, tiet_on_1, tiet_off, tiet_on_2)){
-                                        change = true;
-                                        ThayTheTiet(lop, tiet_off, tiet_on_2);
-                                        ThayTheTiet(lop, tiet_on_2, tiet_on_1);
-                                        //cout << lop << ' ' << tiet_off << ' ' << tiet_on_2 << '\n';
-                                        //cout << lop << ' ' << tiet_on_2 << ' ' << tiet_on_1 << '\n';
-                                        //cout << "||||||||||||||||||||||\n";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }            
-            }    
-        }
-
-        // Fixxing thứ 7
-
-        for (int i=1; i<=sllop; i++){
-            for (int tiet=30; tiet>=26; tiet--){
-                if (lop_tiet[i][tiet] == 1){ // Có tiết
-                    //  Tìm tiết trống thay thế
-                    for (int j=26; j<=tiet; j++){
-                        if (lop_tiet[i][j] == 0){ // Tiết trống
-                            if (ChecktietThayThe2(i, j, tiet)){
-                                change = true;
-                                ThayTheTiet(i, j, tiet);
-                                break;
-                            }
-                        }
-                    }
-                }            
-            }    
-        }
-    }
-    
-    bool change_2 = true;
-    
-    while (change_2){
-
-        change_2 = false;
-        ThemPCSau();
-
-        for (int lop=1; lop<=sllop; lop++){
-            for (int tiet_on_1=30; tiet_on_1>=2; tiet_on_1--){
-                if (lop_tiet[lop][tiet_on_1] == 1){ // Có tiết 1
-                    for (int tiet_off=2; tiet_off<=tiet_on_1; tiet_off++){
-                        if (lop_tiet[lop][tiet_off] == 0){ // Tiết trống
-                            for (int tiet_on_2=2; tiet_on_2 <= 30; tiet_on_2++){
-                                if (lop_tiet[lop][tiet_on_2] == 1){ // Có Tiết 2
-                                    if (Check3_Swap_2(lop, tiet_on_1, tiet_off, tiet_on_2) && tiet_on_1 != tiet_on_2 && check1tiet(lop, tiet_on_1)){
-                                        change_2 = true;
-                                        ThayTheTiet(lop, tiet_off, tiet_on_2);
-                                        ThayTheTiet(lop, tiet_on_2, tiet_on_1);
-                                        //cout << lop << ' ' << tiet_off << ' ' << tiet_on_2 << '\n';
-                                        //cout << lop << ' ' << tiet_on_2 << ' ' << tiet_on_1 << '\n';
-                                        //cout << "||||||||||||||||||||||\n";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }            
-            }    
-        }
-
-        // Fixxing thứ 7
-
-        for (int i=1; i<=sllop; i++){
-            for (int tiet=30; tiet>=26; tiet--){
-                if (lop_tiet[i][tiet] == 1){ // Có tiết
-                    //  Tìm tiết trống thay thế
-                    for (int j=26; j<=tiet; j++){
-                        if (lop_tiet[i][j] == 0){ // Tiết trống
-                            if (ChecktietThayThe2(i, j, tiet)){
-                                change_2 = true;
-                                ThayTheTiet(i, j, tiet);
-                                break;
-                            }
-                        }
-                    }
-                }            
-            }    
-        }
-    }
-
-    
-    //ThayTheTiet(2, 24, 2);
-    //ThayTheTiet(2, 2, 27);
-
-    //cout << lop_tiet[2][24];
 
     /*for (int lop=1; lop<=sllop; lop++){
         for (int i=1; i<=30; i++){
@@ -1206,24 +1068,6 @@ int countToiDaMon(){
     return ct;
 }
 
-bool kiemTraDungDoPhongHoc2(){
-    for (int tietbatdau = 1; tietbatdau <= 30; tietbatdau++){
-        int count = 0;
-        for (int j=1; j<=sllop; j++){
-            if (lop_tiet[j][tietbatdau] == 1){
-                if (outlop[j].tiet[tietbatdau].mon == "Tin"){
-                    count++;
-                    if (count > slphongtin){
-                        cout << tietbatdau << ' ';
-                        return false;
-                    }
-                }
-            }
-        }
-    }
-    return true;
-}
-
 void TinhDiemViPham(){
     int h1 = 0;
     int h2 = 0;
@@ -1257,44 +1101,6 @@ void TinhDiemViPham(){
     cout << "Điểm Vi Phạm: " << 999 * h1 + 999 * h2 + 999 * h3 + 600 * h4 + 600 * h5 + 600 * h6 + 600 * h7 + 20 * s1 + 20 * s2 + 10 * s3 + 5 * s4 + 10 * s5 + 20 * s6 + 10 * s7 << '\n';
 }
 
-int tongSoLopGVDayCuaMotLop(string lop){
-    set <string> GV;
-    for (int i=1; i<=slphancong; i++){
-        if (pc[i].lop == lop){
-            GV.insert(pc[i].gv);
-        }
-    }
-    int res_t = 0;
-    for (auto e : GV){
-        set <string> Lop;
-        for (int i=1; i<=slphancong; i++){
-            if (pc[i].gv == e){
-                Lop.insert(pc[i].lop);
-            }
-        }
-        res_t += Lop.size();
-    }
-    return res_t;
-}
-
-bool ComparetongSoLop(string lopa, string lopb){
-    if (tongSoLopGVDayCuaMotLop(lopa) > tongSoLopGVDayCuaMotLop(lopb)){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-void SortDanhSachLop(){
-    sort(DSlop, DSlop + sllop, ComparetongSoLop);
-}
-
-void Xeplop(){
-    for (int i=0; i<sllop; i++){
-        Xepmotlop(DSlop[i]);
-    }
-}
 
 int main(){
     // Bắt đầu đếm thời gian
@@ -1313,18 +1119,7 @@ int main(){
     sapXep();
     taoDanhSachLop();
     taoDanhSachGiaoVien();
-    SortDanhSachLop();
-    Xeplop();
-    /*Xepmotlop("12A");
-    Xepmotlop("12B");
-    Xepmotlop("12C");
-    Xepmotlop("12D");
-    Xepmotlop("12E");
-    Xepmotlop("12G");
-    Xepmotlop("12H");
-    Xepmotlop("12K");
-    Xepmotlop("12M");
-    Xepmotlop("12N");
+
     Xepmotlop("10A");
     Xepmotlop("10B");
     Xepmotlop("10C");
@@ -1345,22 +1140,25 @@ int main(){
     Xepmotlop("11K");
     Xepmotlop("11M");
     Xepmotlop("11N");
-    Xepmotlop("11P");
-    Xepmotlop("11Q");
-    Xepmotlop("11T");
-    asdasd
-
-    */
+    Xepmotlop("12A");
+    Xepmotlop("12B");
+    Xepmotlop("12C");
+    Xepmotlop("12D");
+    Xepmotlop("12E");
+    Xepmotlop("12G");
+    Xepmotlop("12H");
+    Xepmotlop("12K");
+    Xepmotlop("12M");
+    Xepmotlop("12N");
+    
     CaiThien1();
     outlop_hetlop();
     outgv_hetgv();
 
     //CaiThien1();
-    cerr << checkTatCaPhanCong();
-    cerr << checkTietLung();
+    //cerr << checkTatCaPhanCong();
+    //cerr << checkTietLung();
 
-    cout << kiemTraDungDoPhongHoc2();
-    //cout << tongSoLopGVDayCuaMotLop("12A");
     //cout << slphancong;
 
     end = clock();
